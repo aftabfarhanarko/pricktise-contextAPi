@@ -4,6 +4,7 @@ import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 import { auth } from "../fierbase/fierbase.config.js"
 
@@ -18,6 +19,9 @@ const COntextProvider = ({ children }) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
+  const signOutUser = () => {
+    signOut(auth);
+  }
 
   useEffect(() => {
     const unsubcriet = onAuthStateChanged(auth, (currentUser) => {
@@ -32,6 +36,7 @@ const COntextProvider = ({ children }) => {
 
   const userInfo = {
     myLogingUser,
+    signOutUser,
     creatUser,
     singInUser,
   };
