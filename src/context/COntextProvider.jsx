@@ -1,20 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../fierbase/fierbase.config";
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "../fierbase/fierbase.config.js"
 
 const COntextProvider = ({ children }) => {
 
-  const creatUser = ( email, password ) => {
+    const [myLogingUser, setMyLogingUser] = useState(null);
+
+  const creatUser = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
   };
   const singInUser = (email, password) => {
-    return signInWithEmailAndPassword(auth, email, password)
-  }
+    return signInWithEmailAndPassword(auth, email, password);
+  };
+
+
+  useEffect(() => {
+    const unsubcriet = onAuthStateChanged(auth, (currentUser) => {
+        console.log("Fierbase Data Current User", currentUser);
+        setMyLogingUser(currentUser)
+    });
+
+    return () => {
+        unsubcriet()
+    }
+  }, [])
 
   const userInfo = {
+    myLogingUser,
     creatUser,
-    singInUser
+    singInUser,
   };
   return (
     <div>
