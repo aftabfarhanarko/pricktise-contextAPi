@@ -4,6 +4,9 @@ import Homepage from "../components/Homepage";
 import Profile from "../components/Profile";
 import Logind from "../components/Logind";
 import Register from "../components/Register";
+import Dasbord from "../components/Dasbord";
+import PrivetRouter from "../components/PrivetRouter";
+import User from "../components/User";
 
 export const router = createBrowserRouter([
   {
@@ -26,6 +29,18 @@ export const router = createBrowserRouter([
         path: "/register",
         Component: Register,
       },
+      {
+        path:"/dasbord",
+        element: <PrivetRouter>
+            <Dasbord></Dasbord>
+        </PrivetRouter>
+      },
+      {
+        path:'/user',
+        element : <PrivetRouter>
+            <User></User>
+        </PrivetRouter>
+      }
     ],
   },
 ]);
