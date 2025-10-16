@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
-import { Navigate } from 'react-router';
+import { Navigate, useLocation } from 'react-router';
 import Loding from './Loding';
 
 const PrivetRouter = ({children}) => {
     const {myLogingUser,loding} = useContext(AuthContext);
-    
+    const locations = useLocation();
 
     if(loding){
         return <div className='flex justify-center items-center h-[60%]'>
@@ -16,8 +16,8 @@ const PrivetRouter = ({children}) => {
     if(myLogingUser) {
         return children
     };
-
-    return <Navigate to="/loging"></Navigate>
+ 
+    return <Navigate state={locations?.pathname} to="/loging"></Navigate>
 };
 
 export default PrivetRouter;

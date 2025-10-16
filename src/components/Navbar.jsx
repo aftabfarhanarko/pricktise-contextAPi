@@ -55,7 +55,7 @@ const Navbar = () => {
               <button className="btn btn-secondary">Sign In</button>
             </Link>
           )}
-        </div>
+        </div> 
       </div>
     </div>
   );

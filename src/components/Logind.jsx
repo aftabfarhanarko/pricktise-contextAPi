@@ -1,12 +1,17 @@
 import React, { useContext, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import "../index.css";
 import { AuthContext } from "../context/AuthContext";
 
 const Logind = () => {
   const [show, setShow] = useState(false);
-  const {singInUser} = useContext(AuthContext);
+  const {singInUser,googleSignIn} = useContext(AuthContext);
+
+  const locations = useLocation();
+  console.log(locations);
+  const navgit = useNavigate();
+
   const handelSingIn = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
@@ -15,11 +20,22 @@ const Logind = () => {
     singInUser(email, password)
       .then((result) => {
         console.log(result.user);
+        navgit(locations.state || "/")
       })
       .catch((err) => {
         console.log(err.message);
       });
   };
+
+  const handelGoogle = () => {
+    googleSignIn()
+    .then(result => {
+        console.log(result.user);
+          navgit(locations.state || "/")
+    }).catch((err) => {
+        console.log(err.message);
+    })
+  }
   return (
     <div className="hero bg-base-200 min-h-screen bg-gradient-to-br from-blue-500 via-purple-600 to-blue-500 ">
       <div className="    md:flex gap-100 max-w-[1400px] px-5 items-center">
@@ -108,7 +124,7 @@ const Logind = () => {
             </div>
 
             <button
-              onClick={""}
+              onClick={handelGoogle}
               className=" cursor-pointer mt-4 w-full bg-white text-gray-800 py-2 rounded-lg flex items-center justify-center gap-2 font-semibold hover:bg-gray-100 transition"
             >
               <img

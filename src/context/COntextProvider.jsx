@@ -5,12 +5,16 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
-import { auth } from "../fierbase/fierbase.config.js"
+import { auth } from "../fierbase/fierbase.config.js";
+
+const googleProvider = new GoogleAuthProvider();
 
 const COntextProvider = ({ children }) => {
-    const [loding, setLoding] = useState(true);
-    const [myLogingUser, setMyLogingUser] = useState(null);
+  const [loding, setLoding] = useState(true);
+  const [myLogingUser, setMyLogingUser] = useState(null);
 
   const creatUser = (email, password) => {
     setLoding(true);
@@ -24,19 +28,22 @@ const COntextProvider = ({ children }) => {
   const signOutUser = () => {
     signOut(auth);
     setLoding(true);
-  }
+  };
 
+  const googleSignIn = () => {
+    return signInWithPopup(auth,googleProvider);
+  }
   useEffect(() => {
     const unsubcriet = onAuthStateChanged(auth, (currentUser) => {
-        console.log("Fierbase Data Current User", currentUser);
-        setMyLogingUser(currentUser)
-        setLoding(false);
+      console.log("Fierbase Data Current User", currentUser);
+      setMyLogingUser(currentUser);
+      setLoding(false);
     });
 
     return () => {
-        unsubcriet()
-    }
-  }, [])
+      unsubcriet();
+    };
+  }, []);
 
   const userInfo = {
     loding,
@@ -44,6 +51,7 @@ const COntextProvider = ({ children }) => {
     signOutUser,
     creatUser,
     singInUser,
+    googleSignIn
   };
   return (
     <div>
